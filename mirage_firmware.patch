@@ -1,0 +1,16 @@
+diff --git a/dts/riscv/qemu/virt-riscv.dtsi b/dts/riscv/qemu/virt-riscv.dtsi
+index 8329a1ec62b..d410b3e98a6 100644
+--- a/dts/riscv/qemu/virt-riscv.dtsi
++++ b/dts/riscv/qemu/virt-riscv.dtsi
+@@ -150,9 +150,9 @@
+ 		};
+ 	};
+ 
+-	ram0: memory@80000000 {
++	ram0: memory@80100000 {
+ 		device_type = "memory";
+-		reg = < 0x80000000 0x10000000 >;
++		reg = < 0x80100000 0x04000000 >;
+ 	};
+ 
+ 	soc {

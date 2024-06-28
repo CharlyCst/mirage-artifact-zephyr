@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: System Setup
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends git cmake ninja-build gperf ccache dfu-util device-tree-compiler wget python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file make gcc gcc-multilib g++-multilib libsdl2-dev libmagic1 gcc-riscv64-linux-gnu
+      - name: West Setup
+        run: pip install west
+      - name: SDK Setup
+        run: wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.8/zephyr-sdk-0.16.8_linux-x86_64.tar.xz && tar xvf zephyr-sdk-0.16.8_linux-x86_64.tar.xz && mv zephyr-sdk-0.16.8 ~/zephyr-sdk && cd ~/zephyr-sdk && ./setup.sh -t riscv64-zephyr-elf
+      - name: Build
+        run: PATH=$PATH:~/zephyr-sdk make
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            zephyr.bin
+            zephyr.elf
