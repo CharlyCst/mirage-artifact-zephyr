@@ -116,8 +116,9 @@ int main(void)
 #endif
 
     k_thread_start(&thread_a_data); 
-    k_thread_join(&thread_a_data, K_MSEC(400000));
+    k_thread_join(&thread_a_data, K_MSEC(500000));
 
+	// Call into Miralis to exit successfully
 	__asm__("add a6, zero, 1\n"
 		"li a7, 0x08475bcd\n"
 		"ecall");
